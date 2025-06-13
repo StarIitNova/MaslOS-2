@@ -1,0 +1,8 @@
+#pragma once
+
+#define SIGABRT 6   // Abnormal termination
+#define SIGFPE  8   // Floating-point exception
+#define SIGILL  4   // Illegal instruction
+#define SIGINT  2   // Interrupt (e.g., Ctrl+C)
+#define SIGSEGV 11  // Segmentation fault
+#define SIGTERM 15  // Termination request
