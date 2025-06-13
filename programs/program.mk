@@ -25,7 +25,7 @@ $(OUTPUT): $(OBJ) ../../objects/libm/FINAL_libm.o.user_module
 $(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) -c $^ -o $@
-	
+
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@
@@ -37,4 +37,6 @@ $(OBJDIR)/%_asm.o: %.asm
 
 .PHONY: clean
 clean:
-	@rm -rf $(OUTPUT) $(OBJ) $(OBJ2) $(HEADER_DEPS)
+	@rm -rf $(OUTPUT) $(OBJ) $(OBJ:.o=.d) $(OBJ2) $(HEADER_DEPS)
+
+-include $(OBJ:.o=.d)

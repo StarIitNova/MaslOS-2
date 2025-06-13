@@ -31,7 +31,7 @@ $(OBJDIR)/./interrupts/interrupts.o: interrupts/interrupts.cpp
 $(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) -c $^ -o $@ -D _KERNEL_SRC
-	
+
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $^ -o $@ -D _KERNEL_SRC
@@ -40,7 +40,8 @@ $(OBJDIR)/%_asm.o: %.asm
 	@mkdir -p $(@D)
 	$(AS) $(NASMFLAGS) $< -o $@
 
-
 .PHONY: clean
 clean:
-	@rm -rf $(OUTPUT) $(OBJ)
+	@rm -rf $(OUTPUT) $(OBJ) $(OBJ:.o=.d)
+
+-include $(OBJ:.o=.d)

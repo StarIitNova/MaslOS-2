@@ -4,14 +4,17 @@ AS = nasm
 
 BASE_C_FLAGS = -ffreestanding -fshort-wchar -mno-red-zone -fno-omit-frame-pointer -fno-exceptions -ffunction-sections -fdata-sections
 BASE_CPP_FLAGS = -ffreestanding -fshort-wchar -mno-red-zone -fno-omit-frame-pointer -fno-exceptions -fpermissive -Wno-pmf-conversions -ffunction-sections -fdata-sections
+USER_C_FLAGS=-ffreestanding -fno-omit-frame-pointer -ffunction-sections -fdata-sections
+USER_CPP_FLAGS=-ffreestanding -fno-omit-frame-pointer -ffunction-sections -fdata-sections
 BASE_NASM_FLAGS = -F dwarf -g -f elf64
 # -w
 
-C_RELO_FLAGS = $(BASE_C_FLAGS) -I ../ 
-CPP_RELO_FLAGS = $(BASE_CPP_FLAGS) -I ../ 
+C_RELO_FLAGS = $(BASE_C_FLAGS) -MMD -MP -I ../
+CPP_RELO_FLAGS = $(BASE_CPP_FLAGS) -MMD -MP -I ../
 
-C_APP_FLAGS = $(BASE_C_FLAGS) -fPIC -I ../../
-CPP_APP_FLAGS = $(BASE_CPP_FLAGS) -fPIC -I ../../
+C_APP_FLAGS = $(USER_C_FLAGS) -MMD -MP -fPIC -I ../../
+CPP_APP_FLAGS = $(USER_CPP_FLAGS) -MMD -MP -fPIC -I ../../
+
 
 BASE_LD_FLAGS = -m elf_x86_64 -unresolved-symbols=ignore-all
 LD_RELO_FLAGS = $(BASE_LD_FLAGS) -r

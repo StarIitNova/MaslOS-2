@@ -10,3 +10,7 @@ objects/**
 
 kernel.elf
 objects/**/*.elf
+
+compile_commands.json
+
+.cache

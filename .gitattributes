@@ -1,0 +1,11 @@
+*.sh text eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.c text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
+*.asm text eol=lf
+*.S text eol=lf
+[Mm]akefile text eol=lf
+GNUmakefile text eol=lf
+*.mk text eol=lf

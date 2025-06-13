@@ -1,14 +1,31 @@
 
-all: 
+all:
 	rm MaslOS2.iso || true
 	$(MAKE) MaslOS2.iso
 	true || $(MAKE) cleanError
 
-# for nvim users apparently
-CRun:	
-	./CRUN.sh
+run:
+ifeq ($(NOKVM),1)
+	./scripts/run_nokvm.sh
+else
+	./scripts/run.sh
+endif
 
-.PHONY: kernel
+crun:
+ifeq ($(NOKVM),1)
+	./scripts/crun_nokvm.sh
+else
+	./scripts/crun.sh
+endif
+
+nobuild:
+ifeq ($(NOKVM),1)
+	./scripts/raw_nokvm.sh
+else
+	./scripts/raw.sh
+endif
+
+.PHONY: kernel run crun nobuild
 kernel:
 	$(MAKE) -C libm
 	$(MAKE) -C kernel
@@ -28,7 +45,7 @@ MaslOS2.iso:
 	mkdir -p iso_root
 	# cp modules/test/test.elf external/test.elf
 	# cp modules/nothing-doer/nothing-doer.elf external/nothing-doer.elf
-	
+
 	for i in ./objects/modules/*/; do \
 		if [ -d "$$i" ]; \
 		then \
@@ -41,7 +58,7 @@ MaslOS2.iso:
 			fi; \
 		fi \
 	done
-	
+
 	for i in ./objects/programs/*/; do \
 		if [ -d "$$i" ]; \
 		then \
@@ -54,35 +71,35 @@ MaslOS2.iso:
 			fi; \
 		fi \
 	done
-	
+
 
 	$(MAKE) -C saf
 	./saf/saf-make ./objects/external ./external/programs.saf -q
-	
-	
-	
+
+
+
 	cp objects/kernel-loader/kernel.elf \
 		limine.cfg limine/limine.sys limine/limine-cd.bin limine/limine-cd-efi.bin \
 		external/* \
 		iso_root/
-		
+
 	xorriso -as mkisofs -b limine-cd.bin \
 		-no-emul-boot -boot-load-size 4 -boot-info-table \
 		--efi-boot limine-cd-efi.bin \
 		-efi-boot-part --efi-boot-image --protective-msdos-label \
 		iso_root -o MaslOS2.iso
-		
+
 	limine/limine-deploy MaslOS2.iso
 	rm -rf iso_root
 
 
 cleanError:
-	$(MAKE) clean2 
+	$(MAKE) clean2
 	$(error "error happened")
 
 clean: clean2
 	@rm -rf iso_root MaslOS2.iso barebones.hdd ./external/programs.saf
-	
+
 
 clean2:
 	@rm -rf iso_root barebones.hdd ./external/programs.saf
@@ -104,11 +121,9 @@ cleanObjFolder:
 	@mkdir objects/modules
 	@mkdir objects/programs
 	@$(MAKE) cleanExternalFolder
-	
+
 cleanExternalFolder:
 	@rm -rf objects/external || true
 	@mkdir objects/external
 	@mkdir objects/external/modules
 	@mkdir objects/external/programs
-	
-	

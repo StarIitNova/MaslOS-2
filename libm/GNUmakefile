@@ -12,9 +12,9 @@ CPPFILES  = $(shell find . -type f -name '*.cpp')
 NASMFILES = $(shell find . -type f -name '*.asm')
 
 OBJ       = $(patsubst %.c,   $(OBJDIR)/%.o,               $(CFILES)) $(patsubst %.cpp,   $(OBJDIR)/%.o,               $(CPPFILES)) $(patsubst %.asm,   $(OBJDIR)/%_asm.o,               $(NASMFILES))
-OBJ1      = $(patsubst %.c,   $(OBJDIR)/%.o.user_module,   $(CFILES)) $(patsubst %.cpp,   $(OBJDIR)/%.o.user_module,   $(CPPFILES)) $(patsubst %.asm,   $(OBJDIR)/%_asm.o.user_module,   $(NASMFILES))
-OBJ2      = $(patsubst %.c,   $(OBJDIR)/%.o.kernel_src,    $(CFILES)) $(patsubst %.cpp,   $(OBJDIR)/%.o.kernel_src,    $(CPPFILES)) $(patsubst %.asm,   $(OBJDIR)/%_asm.o.kernel_src,    $(NASMFILES))
-OBJ3      = $(patsubst %.c,   $(OBJDIR)/%.o.kernel_module, $(CFILES)) $(patsubst %.cpp,   $(OBJDIR)/%.o.kernel_module, $(CPPFILES)) $(patsubst %.asm,   $(OBJDIR)/%_asm.o.kernel_module, $(NASMFILES))
+OBJ1      = $(addsuffix .user_module, $(OBJ))
+OBJ2      = $(addsuffix .kernel_src, $(OBJ))
+OBJ3      = $(addsuffix .kernel_module, $(OBJ))
 
 
 .PHONY: all
@@ -32,7 +32,7 @@ $(OBJDIR)/%.o: %.cpp
 	@$(CC) $(CPPFLAGS) -c $^ -o $@.kernel_module -D _KERNEL_MODULE
 	@$(CC) $(CPPFLAGS) -c $^ -o $@.user_module -D _USER_MODULE
 	@echo foo > $@
-	
+
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(@D)
 	$(CC)  $(CFLAGS) -c $^ -o $@.kernel_src -D _KERNEL_SRC
@@ -48,14 +48,11 @@ $(OBJDIR)/%_asm.o: %.asm
 
 .PHONY: clean
 clean:
-	@rm -rf $(OBJ)
-	@rm -rf $(OBJ1)
-	@rm -rf $(OBJ2)
-	@rm -rf $(OBJ3)
-	
-	@rm -rf $(HEADER_DEPS)
-	
+	@rm -f $(OBJ) $(OBJ1) $(OBJ2) $(OBJ3) $(OBJ:.o=.d)
+
 	@rm -rf $(OUTPUT) || true
 	@rm -rf $(OUTPUT).kernel_src
 	@rm -rf $(OUTPUT).kernel_module
 	@rm -rf $(OUTPUT).user_module
+
+-include $(OBJ:.o=.d)

@@ -23,4 +23,6 @@ $(OBJDIR)/%.o: %.cpp
 
 .PHONY: clean
 clean:
-	@rm -rf $(OUTPUT) $(OBJ)
+	@rm -rf $(OUTPUT) $(OBJ) $(OBJ:.o=.d)
+
+-include $(OBJ:.o=.d)

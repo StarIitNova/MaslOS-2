@@ -10,24 +10,24 @@ And it works on real hardware!
 
 ## Features
  + Basics
-   - Scheduler 
+   - Scheduler
    - Elf loading
-   - User Space 
+   - User Space
    - Inter Process Communication
    - Stdio using IPC
    - Multithreading (still experimental?)
  + GUI
    - MaslOS GUI Framework port
-   - Mouse/Keyboard interaction 
-   - MaslOS Desktop / WM 
-   - Taskbar 
+   - Mouse/Keyboard interaction
+   - MaslOS Desktop / WM
+   - Taskbar
    - Start Menu
  + Apps
    - Tic Tac Toe
-   - Flappy Rocc 
-   - Terminal 
-   - Explorer 
-   - Image Viewer 
+   - Flappy Rocc
+   - Terminal
+   - Explorer
+   - Image Viewer
    - Music Player (You can see a demo [here](https://cdn.marceldobehere.com/file/747710745.mp4))
    + MAAB interpreter
      - Pong
@@ -35,7 +35,7 @@ And it works on real hardware!
    - Notepad
    - Paint (mostly working)
    - Doom
-   + Minesweeper 
+   + Minesweeper
      - Can be launched in 3 modes (easy, medium, hard)
      - Example: `run minesweeper.elf medium`
    - Connect Four
@@ -44,12 +44,12 @@ And it works on real hardware!
    - CalcRocc (has some issues)
    - Snake (soon)
    + Dialogs
-     - Open File Dialog 
+     - Open File Dialog
      - Save File Dialog (soon)
      - Generic Information Dialog (soon)
      - Generic Text Input Dialog (soon)
      - Generic Information YES/NO Dialog (soon)
-   - Other Apps ported from MaslOS and some extra ones (not yet) 
+   - Other Apps ported from MaslOS and some extra ones (not yet)
  + Audio
    + Drivers
      - PC-Speaker
@@ -96,7 +96,7 @@ Here are all the shortcuts for quick reference: (including debug ones)
  - Press F6 to launch a mini window test
  - Press ALT + F4 to force close a program
  - Press CTRL + ESC to escape mouse capture
- 
+
 
 
 ## How to build (Linux)
@@ -109,15 +109,18 @@ Here are all the shortcuts for quick reference: (including debug ones)
  - Install `xorriso` if you haven't.
 
 
-Go into the MaslOS2 Folder and run the `CRUN.sh` file
+Go into the MaslOS2 Folder and run `make run --clean`
 
 If you are trying this and getting weird compiler/linker errors, please let me know!
 
 gcc and ld like to break things in newer versions for some reason.  *:D*
 
+GOD PLEASE IF YOU ARE EDITING THIS GENERATE A `compile_commands.json` FILE WITH `$ python3 ecc.py` (NOTE: this requires `bear` to be installed). Also if you're editing on Windows but need to run ecc.py on WSL2/Some linux distro, hop over to your windows terminal and run `$ python3 ecc.py --wsl2win` and this
+will convert `/mnt/c/` or whatever drive letter into `C:/`
+
 ## How to run (No need to build)
 
-### How to run (Linux) 
+### How to run (Linux)
 Install QEMU if you haven't.
 
 Download/clone the repo.
@@ -188,4 +191,3 @@ If you need any help / have any questions or are curious about MaslOS2, feel fre
  - [VisualOS](https://github.com/nothotscott/VisualOS)
  - [MicroOS](https://github.com/Glowman554/MicroOS)
  - [SAF](https://github.com/chocabloc/saf)
- 
